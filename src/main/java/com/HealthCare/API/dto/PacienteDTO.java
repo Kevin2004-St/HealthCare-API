@@ -1,5 +1,6 @@
 package com.HealthCare.API.dto;
 
+import com.HealthCare.API.enums.Genero;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
@@ -23,7 +24,8 @@ public class PacienteDTO {
     @Past(message = "La fecha no puede ser mayor a la actual")
     private LocalDate fechaNacimiento;
 
-    private String genero;
+    @NotNull
+    private Genero genero;
 
     @NotBlank(message = "La dirección es obligatoria")
     @Size(min = 2,max = 50,message = "La direción debe tener entre 2 y 50 caracteres")
@@ -73,11 +75,11 @@ public class PacienteDTO {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public String getGenero() {
+    public Genero getGenero() {
         return genero;
     }
 
-    public void setGenero(String genero) {
+    public void setGenero(Genero genero) {
         this.genero = genero;
     }
 

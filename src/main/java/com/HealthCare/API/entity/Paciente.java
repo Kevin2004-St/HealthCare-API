@@ -1,5 +1,6 @@
 package com.HealthCare.API.entity;
 
+import com.HealthCare.API.enums.Genero;
 import jakarta.persistence.*;
 
 
@@ -24,7 +25,9 @@ public class Paciente {
 
     private LocalDate fechaNacimiento;
 
-    private String genero;
+    //Enum String en la base de datos
+    @Enumerated(EnumType.STRING)
+    private Genero genero;
 
     private String direccion;
 
@@ -34,7 +37,7 @@ public class Paciente {
 
     }
 
-    public Paciente(Long id, String documento, String nombres, String apellidos, LocalDate fechaNacimiento, String genero, String direccion, String celular, String email) {
+    public Paciente(Long id, String documento, String nombres, String apellidos, LocalDate fechaNacimiento, Genero genero, String direccion, String celular, String email) {
         this.id = id;
         this.documento = documento;
         this.nombres = nombres;
@@ -86,11 +89,11 @@ public class Paciente {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public String getGenero() {
+    public Genero getGenero() {
         return genero;
     }
 
-    public void setGenero(String genero) {
+    public void setGenero(Genero genero) {
         this.genero = genero;
     }
 
