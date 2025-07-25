@@ -1,5 +1,6 @@
 package com.HealthCare.API.service.Impl;
 
+import com.HealthCare.API.dto.PacienteDTO;
 import com.HealthCare.API.entity.Paciente;
 import com.HealthCare.API.repository.PacienteRepository;
 import com.HealthCare.API.service.PacienteService;
@@ -30,25 +31,45 @@ public class PacienteServiceImpl implements PacienteService {
     }
 
     @Override
-    public Paciente guardar(Paciente paciente) {
-       if(pacienteRepository.existsByDocumento(paciente.getDocumento())){
-           throw new RuntimeException("Ya existe un paciente con ese documento");
-       }
-       return pacienteRepository.save(paciente);
+    public Paciente guardar(PacienteDTO dto) {
+
+        Paciente paciente = new Paciente();
+        paciente.setDocumento(dto.getDocumento());
+        paciente.setNombres(dto.getNombres());
+        paciente.setApellidos(dto.getApellidos());
+        paciente.setEmail(dto.getEmail());
+        paciente.setFechaNacimiento(dto.getFechaNacimiento());
+        paciente.setGenero(dto.getGenero());
+        paciente.setDireccion(dto.getDireccion());
+        paciente.setCelular(dto.getCelular());
+
+        if(pacienteRepository.existsByDocumento(paciente.getDocumento())){
+            throw new RuntimeException("Ya existe un paciente con ese documento");
+        }
+
+        return  pacienteRepository.save(paciente);
+
     }
 
     @Override
-    public Paciente actualizar(Long id, Paciente pacienteActualizado) {
-        return pacienteRepository.findById(id).map(p -> {
-            p.setNombres(pacienteActualizado.getNombres());
-            p.setApellidos(pacienteActualizado.getApellidos());
-            p.setDocumento(pacienteActualizado.getDocumento());
-            p.setFechaNacimiento(pacienteActualizado.getFechaNacimiento());
-            p.setGenero(pacienteActualizado.getGenero());
-            p.setDireccion(pacienteActualizado.getDireccion());
-            p.setCelular(pacienteActualizado.getCelular());
-            return  pacienteRepository.save(p);
-        }).orElseThrow(()-> new RuntimeException("Paciente no encontrado con ID "+ id));
+    public Paciente actualizar(String documento, PacienteDTO dto) {
+        Optional<Paciente> pacienteOpt = pacienteRepository.findByDocumento(documento);
+
+        if(pacienteOpt.isEmpty()){
+            throw new EntityNotFoundException("Paciente con documento "+ " no encontrado");
+        }
+
+        Paciente paciente = pacienteOpt.get();
+        paciente.setNombres(dto.getNombres());
+        paciente.setApellidos(dto.getApellidos());
+        paciente.setEmail(dto.getEmail());
+        paciente.setFechaNacimiento(dto.getFechaNacimiento());
+        paciente.setGenero(dto.getGenero());
+        paciente.setDireccion(dto.getDireccion());
+        paciente.setCelular(dto.getCelular());
+
+        return pacienteRepository.save(paciente);
+
     }
 
     @Override

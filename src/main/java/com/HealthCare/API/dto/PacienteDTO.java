@@ -1,58 +1,37 @@
-package com.HealthCare.API.entity;
+package com.HealthCare.API.dto;
 
-import jakarta.persistence.*;
-
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "pacientes")
+public class PacienteDTO {
 
-public class Paciente {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @NotBlank(message = "El documento es obligatorio")
     private String documento;
 
+    @NotBlank(message = "El nombre es obligatorio")
+    @Size(min = 2, max = 50, message = "El nombre debe tener entre 2 y 50 caracteres")
     private String nombres;
 
+    @NotBlank(message = "Los apellidos son obligatorios")
+    @Size(min = 2, max = 50, message = "El apellido debe tener entre 2 y 50 caracteres")
     private String apellidos;
 
+    @Email(message = "Debe ser un correo valido")
     private String email;
 
+    @Past(message = "La fecha no puede ser mayor a la actual")
     private LocalDate fechaNacimiento;
 
     private String genero;
 
+    @NotBlank(message = "La dirección es obligatoria")
+    @Size(min = 2,max = 50,message = "La direción debe tener entre 2 y 50 caracteres")
     private String direccion;
 
+    @Pattern(regexp = "\\d{11,}", message = "El celular debe tener al menos 11 digitos")
     private String celular;
 
-    public Paciente(){
-
-    }
-
-    public Paciente(Long id, String documento, String nombres, String apellidos, LocalDate fechaNacimiento, String genero, String direccion, String celular, String email) {
-        this.id = id;
-        this.documento = documento;
-        this.nombres = nombres;
-        this.apellidos = apellidos;
-        this.fechaNacimiento = fechaNacimiento;
-        this.genero = genero;
-        this.direccion = direccion;
-        this.celular = celular;
-        this.email = email;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getDocumento() {
         return documento;
@@ -76,6 +55,14 @@ public class Paciente {
 
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public LocalDate getFechaNacimiento() {
@@ -108,13 +95,5 @@ public class Paciente {
 
     public void setCelular(String celular) {
         this.celular = celular;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }

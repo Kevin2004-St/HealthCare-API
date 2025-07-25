@@ -1,5 +1,6 @@
 package com.HealthCare.API.service;
 
+import com.HealthCare.API.dto.PacienteDTO;
 import com.HealthCare.API.entity.Paciente;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface PacienteService {
 
     List<Paciente> listarTodos();
     Optional<Paciente> obtenerPorDocumento(String documento);
-    Paciente guardar(Paciente paciente);
-    Paciente actualizar(Long id, Paciente paciente);
+    Paciente guardar(PacienteDTO dto);
+    Paciente actualizar(String documento, PacienteDTO dto);
     void eliminar(String documento);
 }
